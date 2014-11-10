@@ -53,6 +53,7 @@ var mockIndexedDB_storeDeleteTimer;
 var mockIndexedDB_storeClearTimer;
 var mockIndexedDB_storeOpenCursorTimer;
 var mockIndexedDB_deleteDBTimer;
+var mockIndexedDB_getObjectTimer;
 
 /**
  * call this in beforeEach() to reset the mock
@@ -272,6 +273,23 @@ var mockIndexedDBStore = {
 		}
 
 		return mockIndexedDBTransaction;
+	},
+
+
+  'get' : function(key) {
+    if (mockIndexedDBTestFlags.canReadDB === true) {
+      // todo - get the item by the key
+      mockIndexedDB_getObjectTimer = setTimeout(function() {
+        mockIndexedDBTransaction.callCompleteHandler();
+      }, 20);
+    } 
+    else {
+      mockIndexedDB_getObjectTimer = setTimeout(function() {
+        mockIndexedDBTransaction.callErrorHandler();
+			}, 20);
+    }
+
+    return mockIndexedDBTransaction;
 	},
 
 	// for delete, the listeners are attached to a request returned from the store.
